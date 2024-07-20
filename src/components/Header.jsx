@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand href="#">Cafetería Rosendo</Navbar.Brand>
+      <Navbar.Brand href="#" class="text-warning"><h4><b>Cafetería Rosendo</b></h4></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">

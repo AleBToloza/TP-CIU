@@ -53,7 +53,7 @@ const Galeria = () => {
           </Col>
         </Row>
         <Row>
-          {coffeeData.map(coffee => (
+          {coffeeData.filter(coffee => coffee.id <= 20).map(coffee => (
             <Col md={4} key={coffee.id} className="w-25" className="col-xxl-3">
               <Card md={4} >
                 <Card.Img variant="top" src={coffee.image} alt={coffee.title} />
