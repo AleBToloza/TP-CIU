@@ -1,38 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import MenuItem from './MenuItem';
-
-const menuData = [
-  { name: 'Café', description: 'Café negro', price: 2 },
-  { name: 'Latte', description: 'Café con leche', price: 3 },
-  // más ítems del menú...
-];
 
 const Menu = () => {
-
-  const [coffeeData, setCoffeeData] = useState([]);
+  const [cafeData, setCafeData] = useState([]);
+  const [itemsSeleccionados, setItemsSeleccionados] = useState({});
+  const [precioTotal, setPrecioTotal] = useState(0);
+  const [contadorItem, setContadorItem] = useState(0);
 
   useEffect(() => {
     fetch('https://api.sampleapis.com/coffee/hot')
       .then(response => response.json())
-      .then(data => setCoffeeData(data))
+      .then(data => setCafeData(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const [selectedItems, setSelectedItems] = useState({});
-  
-  const handleSelectItem = (name) => {
-    setSelectedItems(prevItems => ({
+  const anadirItem = (name) => {
+    setItemsSeleccionados(prevItems => ({
       ...prevItems,
       [name]: (prevItems[name] || 0) + 1
     }));
+    setContadorItem(contCarrito => contCarrito + 1);
   };
 
-  const calculateTotal = () => {
-    return Object.entries(selectedItems).reduce((total, [name, quantity]) => {
-      const item = coffeeData.find(item => item.title === name);
-      return total + (item.id * quantity);
+  const calcularTotal = () => {
+    const total = Object.entries(itemsSeleccionados).reduce((total, [name, cantd]) => {
+      const item = cafeData.find(item => item.title === name);
+      return total + (item.id * cantd);
     }, 0);
+    setPrecioTotal(total);
+  };
+
+  const resetearEstados = () => {
+    setItemsSeleccionados({});
+    setPrecioTotal(0);
+    setContadorItem(0);
+    alert("¡Gracias por su compra! :D");
   };
 
   return (
@@ -43,36 +45,30 @@ const Menu = () => {
         </Col>
       </Row>
       <Row>
-          {coffeeData.filter(coffee => coffee.id <=20).map(coffee => (
-            <Col md={4} key={coffee.id} className="w-25" className="col-xxl-3">
-              <Card md={4} >
-                <Card.Img variant="top" src={coffee.image} alt={coffee.title} />
-                <Card.Body>
-                  <Card.Title>{coffee.title}</Card.Title>
-                  <Card.Subtitle>{coffee.description}</Card.Subtitle>
-                  <Card.Subtitle><h5><b class="text-primary">${coffee.id}</b></h5></Card.Subtitle>
-                </Card.Body>
-                <Button variant="primary" onClick={() => handleSelectItem(coffee.title)}>Añadir</Button>
-              </Card>
-            </Col>
-          ))}
-      </Row>
-      <Row>
-        {menuData.map(item => (
-          <Col md={4} key={item.name}>
-            <Card className="mb-4">
+        {cafeData.filter(cafe => cafe.id <= 20).map(cafe => (
+          <Col md={4} key={cafe.id} className="col-xxl-3">
+            <Card>
+              <Card.Img variant="top" src={cafe.image} alt={cafe.title} />
               <Card.Body>
-                <MenuItem {...item} />
-                <Button variant="primary" onClick={() => handleSelectItem(item.name)}>Añadir</Button>
+                <Card.Title>{cafe.title}</Card.Title>
+                <Card.Subtitle>{cafe.description}</Card.Subtitle>
+                <Card.Subtitle><h5><b className="text-primary">${cafe.id}</b></h5></Card.Subtitle>
               </Card.Body>
+              <Button variant="primary" onClick={() => anadirItem(cafe.title)}>Añadir</Button>
             </Card>
           </Col>
         ))}
       </Row>
       <Row className="mt-3">
         <Col>
-          <Button variant="success" onClick={calculateTotal}>Calcular Total</Button>
-          <p>Total: {calculateTotal()}</p>
+          <Button variant="dark" onClick={calcularTotal}>Calcular Total</Button>
+          {precioTotal > 0 && <p>Total A Pagar: ${precioTotal}</p>}
+          <p>Productos En El Carrito: {contadorItem}</p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button variant="success" onClick={resetearEstados} className="ml-3">Realizar Compra</Button>
         </Col>
       </Row>
     </Container>

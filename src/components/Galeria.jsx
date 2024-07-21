@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const Galeria = () => {
-  const [coffeeData, setCoffeeData] = useState([]);
+  const [cafeData, setCafeData] = useState([]);
 
   useEffect(() => {
     fetch('https://api.sampleapis.com/coffee/hot')
       .then(response => response.json())
-      .then(data => setCoffeeData(data))
+      .then(data => setCafeData(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
@@ -53,15 +53,15 @@ const Galeria = () => {
           </Col>
         </Row>
         <Row>
-          {coffeeData.filter(coffee => coffee.id <= 20).map(coffee => (
-            <Col md={4} key={coffee.id} className="w-25" className="col-xxl-3">
+          {cafeData.filter(cafe => cafe.id <= 20).map(cafe => (
+            <Col md={4} key={cafe.id} className= "col-xxl-3">
               <Card md={4} >
-                <Card.Img variant="top" src={coffee.image} alt={coffee.title} />
+                <Card.Img variant="top" src={cafe.image} alt={cafe.title} />
                 <Card.Body>
-                  <Card.Title>{coffee.title}</Card.Title>
-                  <Card.Subtitle>{coffee.description}</Card.Subtitle>
+                  <Card.Title>{cafe.title}</Card.Title>
+                  <Card.Subtitle>{cafe.description}</Card.Subtitle>
                 </Card.Body>
-                <Card.Subtitle>{'Ingredientes: ' + coffee.ingredients.map(Ingredient=>(Ingredient + ' '))}</Card.Subtitle>
+                <Card.Subtitle>{'Ingredientes: ' + cafe.ingredients.map(Ingredient=>(Ingredient + ' '))}</Card.Subtitle>
               </Card>
             </Col>
           ))}
@@ -73,4 +73,3 @@ const Galeria = () => {
 
 
 export default Galeria;
-
