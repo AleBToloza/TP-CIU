@@ -31,10 +31,13 @@ const Menu = () => {
   };
 
   const resetearEstados = () => {
-    setItemsSeleccionados({});
-    setPrecioTotal(0);
-    setContadorItem(0);
-    alert("¡Gracias por su compra! :D");
+    if (precioTotal != 0) {
+      setItemsSeleccionados({});
+      setPrecioTotal(0);
+      setContadorItem(0);
+      alert("¡Gracias por su compra! :D");
+    }
+    else { alert("No hay nada para comprar, carrito vacío. :/");}
   };
 
   return (
