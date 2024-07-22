@@ -31,24 +31,16 @@ const Menu = () => {
   };
 
   const resetearEstados = () => {
-<<<<<<< HEAD
-    if (precioTotal != 0) {
-=======
     if (contadorItem == 0) {alert("Nada para pagar, carrito vacío. :/"); }
     else if (precioTotal == 0) {
       alert("Hay algo en el carrito, pero desconozco el monto. Clickee en 'Calcular Total' y luego realice la compra, por favor.");
     }
     else {
->>>>>>> Alejandro
       setItemsSeleccionados({});
       setPrecioTotal(0);
       setContadorItem(0);
       alert("¡Gracias por su compra! :D");
     }
-<<<<<<< HEAD
-    else { alert("No hay nada para comprar, carrito vacío. :/");}
-=======
->>>>>>> Alejandro
   };
 
   return (
