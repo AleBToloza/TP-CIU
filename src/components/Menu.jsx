@@ -6,7 +6,7 @@ const Menu = () => {
   const [itemsSeleccionados, setItemsSeleccionados] = useState({});
   const [precioTotal, setPrecioTotal] = useState(0);
   const [contadorItem, setContadorItem] = useState(0);
-  const [mostradorItems, setMostradorItems] = useState(0);
+  const [mostradorItems, setMostradorItem] = useState(0);
 
   useEffect(() => {
     fetch('https://api.sampleapis.com/coffee/hot')
@@ -20,7 +20,7 @@ const Menu = () => {
       ...prevItems,
       [name]: (prevItems[name] || 0) + 1
     }));
-    setMostradorItems(contCarrito => contCarrito + 1)
+    setMostradorItem(contCarrito => contCarrito + 1)
     setContadorItem(contCarrito => contCarrito + 1);
   };
 
@@ -42,7 +42,7 @@ const Menu = () => {
       setItemsSeleccionados({});
       setPrecioTotal(0);
       setContadorItem(0);
-      setMostradorItems(0);
+      setMostradorItem(0);
       alert("¡Gracias por su compra! :D");
     }
   };
