@@ -6,6 +6,7 @@ const Menu = () => {
   const [itemsSeleccionados, setItemsSeleccionados] = useState({});
   const [precioTotal, setPrecioTotal] = useState(0);
   const [contadorItem, setContadorItem] = useState(0);
+  const [mostradorItems, setMostradorItems] = useState(0);
 
   useEffect(() => {
     fetch('https://api.sampleapis.com/coffee/hot')
@@ -19,6 +20,7 @@ const Menu = () => {
       ...prevItems,
       [name]: (prevItems[name] || 0) + 1
     }));
+    setMostradorItems(contCarrito => contCarrito + 1)
     setContadorItem(contCarrito => contCarrito + 1);
   };
 
@@ -28,17 +30,19 @@ const Menu = () => {
       return total + (item.id * cantd);
     }, 0);
     setPrecioTotal(total);
+    setContadorItem(0);
   };
 
   const resetearEstados = () => {
-    if (contadorItem == 0) {alert("Nada para pagar, carrito vacío. :/"); }
-    else if (precioTotal == 0) {
+    if (contadorItem == 0 && precioTotal == 0) {alert("Nada para pagar, carrito vacío. :/"); }
+    else if (precioTotal == 0 || (precioTotal!= 0 && contadorItem != 0)) {
       alert("Hay algo en el carrito, pero desconozco el monto. Clickee en 'Calcular Total' y luego realice la compra, por favor.");
     }
     else {
       setItemsSeleccionados({});
       setPrecioTotal(0);
       setContadorItem(0);
+      setMostradorItems(0);
       alert("¡Gracias por su compra! :D");
     }
   };
@@ -51,7 +55,7 @@ const Menu = () => {
         </Col>
       </Row>
       <Row>
-        {cafeData.filter(cafe => cafe.id <= 20).map(cafe => (
+        {cafeData.filter(cafe => cafe.id <= 2).map(cafe => (
           <Col md={4} key={cafe.id} className="col-xxl-3">
             <Card>
               <Card.Img variant="top" src={cafe.image} alt={cafe.title} />
@@ -69,7 +73,7 @@ const Menu = () => {
         <Col>
           <Button variant="dark" onClick={calcularTotal}>Calcular Total</Button>
           {precioTotal > 0 && <p>Total A Pagar: ${precioTotal}</p>}
-          <p>Productos En El Carrito: {contadorItem}</p>
+          <p>Productos En El Carrito: {mostradorItems}</p>
         </Col>
       </Row>
       <Row>
